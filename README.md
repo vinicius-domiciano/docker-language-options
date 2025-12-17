@@ -90,6 +90,12 @@ python main.py -h
 
 ## 🧪 Exemplos de Uso
 
+### 🔧 Configurar arquivo alias e adicionar ao .bashrc
+
+```bash
+python main.py --option conf:prepare
+```
+
 ### ➕ Criar nova linguagem
 
 ```bash

@@ -22,29 +22,38 @@ A arquitetura foi pensada seguindo princípios da **Clean Architecture**, separa
 ## 🧱 Arquitetura (Clean Architecture)
 
 ```
-project-root/
+sources/
+├── app/
+│   ├── models/          # Modelos de dados (DTOs / entidades simples)
+│   ├── services/        # Casos de uso / regras de negócio
+│   └── use_cases/       # Use cases explícitos (bom ponto 👍)
 │
-├── domain/                # Regras de negócio puras
-│   ├── entities/          # Entidades (Language, Version, ImageConfig)
-│   └── interfaces/        # Contratos (ports)
+├── bin/
+│   ├── aliases.sh (Arquivo gerado quando chama o option conf:prepare)
+│   ├── configure.sh (Aquivo executado para inserir o alias.sh no .bashrc)
+│   └── docker_functions.sh
 │
-├── application/           # Casos de uso
-│   ├── use_cases/         # new_language, new_version, remove_version...
-│   └── services/          # Orquestração de regras
+├── controller/ (Controller chamados para cada comando)
 │
-├── infrastructure/        # Implementações externas
-│   ├── docker/            # Dockerfile generator, docker build/run
-│   ├── filesystem/        # YAML/JSON handlers
-│   └── shell/             # Execução de comandos bash
+├── infra/
+│   ├── dependency_injection/
+│   ├── handlers/        # Integrações externas (Docker, FS, Shell)
+│   └── services/         # Implementações concretas
 │
-├── interfaces/            # Interface com o usuário
-│   └── cli/               # argparse / commands
+├── services/
+│   ├── arguments_service.py
+│   └── event_listener.py
 │
-├── config/
-│   └── languages.yaml     # Definição das linguagens e versões
+├── settings/
+│   ├── build/
+│   ├── dockerfile_initialization-machine
+│   ├── languages.yaml
+│   ├── insert_new_dockerfile_version.json (Aquivo exemplo para adicionar uma versão por dockerfile)
+│   └── insert_new_image_version.json (Arquivo exemplo para adicionar a versão por uma imagem existente)
 │
-├── main.py                # Entry point
-└── README.md
+├── main.py              # Entry point da CLI
+└── start.sh             # Script de atalho/documentação viva
+
 ```
 
 ---
@@ -53,7 +62,7 @@ project-root/
 
 * Python **3.10+**
 * Docker instalado e configurado
-* Linux / WSL / macOS (Windows com Docker Desktop funciona)
+* Linux / WSL
 
 ---
 
@@ -160,7 +169,7 @@ python3 -m sources.main --help
 # python3 -m sources.main --option=ch:version --language=java --version=java11
 
 ### Configure Project, create file aliases.sh and add to .bashrc
-# python3 -m sources.main --option=conf:prepare
+# python3 -m sources.main --option=conf:prepare (Rodar para gerar o alias.sh)
 
 # reload_aliases
 ```
@@ -230,12 +239,4 @@ python:
 ---
 
 ## 🧑‍💻 Autor
-
 Projeto criado para facilitar o gerenciamento de ambientes Docker com foco em **produtividade**, **padronização** e **manutenibilidade**.
-
-Se quiser, posso:
-
-* Ajustar o README ao código real
-* Criar diagrama da arquitetura
-* Criar testes base
-* Revisar se está 100% Clean Architecture

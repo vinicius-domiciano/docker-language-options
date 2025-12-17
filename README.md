@@ -260,8 +260,3 @@ languages:
 * [ ] Plugin para novas linguagens
 * [ ] Exportação de imagens versionadas
 * [ ] Publicação no PyPI
-
----
-
-## 🧑‍💻 Autor
-Projeto criado para facilitar o gerenciamento de ambientes Docker com foco em **produtividade**, **padronização** e **manutenibilidade**.

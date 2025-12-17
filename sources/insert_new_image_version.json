@@ -1,0 +1,10 @@
+{   
+    "language": "java",
+    "version": "java17",
+    "use-image": true,
+    "image-name": "openjdk:17.0.2-jdk",
+    "aliases": [
+      "java",
+      "javac"
+    ]
+}

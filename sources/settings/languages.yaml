@@ -1,0 +1,20 @@
+languages:
+  java:
+    java11:
+      alias:
+      - java
+      - javac
+      environments:
+      - JAVA_HOME=$ORIGINAL_DIR
+      - PATH=$JAVA_HOME/bin:$PATH
+      image_name: docker-options_ee27f618-ea3d-4cfc-bac4-b465d17c385a
+      name: docker-options_ee27f618-ea3d-4cfc-bac4-b465d17c385a
+      use_dockerfile: true
+    java17:
+      alias:
+      - java
+      - javac
+      environments: []
+      image_name: openjdk:17.0.2-jdk
+      name: java:java17:docker-options
+      use_dockerfile: false

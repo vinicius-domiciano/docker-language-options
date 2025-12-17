@@ -197,11 +197,32 @@ O sistema gera o **Dockerfile dinamicamente** com base:
 Exemplo gerado:
 
 ```Dockerfile
-FROM python:3.12-slim
-WORKDIR /app
-COPY . .
-RUN pip install -r requirements.txt
-CMD ["python", "main.py"]
+FROM debian:12-slim
+
+ENV ORIGINAL_DIR=/usr/language/__LANGUAGE__
+ENV USER_PROGRAMS=/home/docker/language
+ENV EXECUTABLE_PATH=__EXECUTABLE_PATH__
+ENV LANGUAGE_URL=__LANGUAGE_URL__
+
+RUN echo "Installing base packages and creating a user !!"
+
+RUN apt-get update -y && apt-get upgrade -y \
+    && apt-get install -y sudo passwd bash curl unzip xz-utils zip ca-certificates tar __APT_GET_REQUIRED__  \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -m docker \
+    && echo "docker:docker" | chpasswd \
+    && usermod -aG sudo docker
+
+RUN mkdir -p $ORIGINAL_DIR \
+    && curl -L -o /tmp/openjdk.tar.gz $LANGUAGE_URL \
+    && tar -xzf /tmp/openjdk.tar.gz -C $ORIGINAL_DIR --strip-components=1 \
+    && rm /tmp/openjdk.tar.gz
+
+__LOAD_ENVS__
+
+WORKDIR $USER_PROGRAMS
+
+USER docker
 ```
 
 ---
@@ -209,13 +230,16 @@ CMD ["python", "main.py"]
 ## 📄 Configuração (languages.yaml)
 
 ```yaml
-python:
-  versions:
-    - 3.10
-    - 3.11
-    - 3.12
-  default: 3.12
-```
+languages:
+  java:
+    java17:
+      alias:
+      - java
+      - javac
+      environments: []
+      image_name: openjdk:17.0.2-jdk
+      name: java:java17:docker-options
+      use_dockerfile: false```
 
 ---
 

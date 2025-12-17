@@ -239,7 +239,8 @@ languages:
       environments: []
       image_name: openjdk:17.0.2-jdk
       name: java:java17:docker-options
-      use_dockerfile: false```
+      use_dockerfile: false
+```
 
 ---
 
